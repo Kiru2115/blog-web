@@ -1,11 +1,11 @@
 {
-  "name": "vite-boilerplate",
+  "name": "blog_web",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "license": "proprietary",
   "main": "index.js",
-  "author": "generacja-innowacja",
+  "author": "Alan Maroń",
   "scripts": {
     "dev": "vite",
     "build": "npx react-router build",
