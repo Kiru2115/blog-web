@@ -6,7 +6,7 @@ export default function App() {
   return (
     <html lang="en">
       <head>
-        <title>vite-boilerplate</title>
+        <title>Alan Maroń</title>
       </head>
       <body>
         <Outlet />
