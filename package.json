@@ -16,6 +16,7 @@
     "e2e:ui": "playwright test --ui",
     "lint": "npx @biomejs/biome lint",
     "lint:fix": "npx @biomejs/biome check --write",
+    "typecheck": "react-router typegen && tsc -b",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build"
