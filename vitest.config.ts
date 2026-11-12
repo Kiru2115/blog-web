@@ -6,10 +6,15 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [react()],
   test: {
-    include: ["**/*.test.tsx", "**/*.test.ts"],
+    include: ["src/**/*.test.tsx", "src/**/*.test.ts"],
     globals: true,
     environment: "jsdom",
     setupFiles: ["./setupTests.ts"],
+    coverage: {
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: ["src/**/*.stories.tsx", "src/root.tsx", "src/routes.ts"],
+      reporter: ["text", "clover"],
+    },
   },
   resolve: {
     alias: {

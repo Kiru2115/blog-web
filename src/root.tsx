@@ -1,17 +1,31 @@
-import { Outlet, Scripts } from "react-router";
+import type { ReactNode } from "react";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
 import "./index.css";
 
-export default function App() {
+export function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Alan Maroń</title>
+        <Meta />
+        <Links />
       </head>
       <body>
-        <Outlet />
+        {children}
+        <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
+}
+
+export function HydrateFallback() {
+  return null;
+}
+
+export default function App() {
+  return <Outlet />;
 }
