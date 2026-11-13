@@ -1,9 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { MemoryRouter } from "react-router";
 import ArticleList from "./ArticleList";
 
 const meta = {
   title: "blog/BlogSection/ArticleList",
   component: ArticleList,
+  // The titles are links, and links need a router around them.
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
   parameters: {
     layout: "padded",
   },
