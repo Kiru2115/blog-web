@@ -51,6 +51,39 @@ The back end lives in a separate repository: [Kiru2115/blog-api](https://github.
 Run it with Docker as its README says. Locally the API is available at http://localhost,
 with Swagger documentation at http://localhost/api.
 
+The blog section on the home page loads the articles from the API. Start the API before `yarn dev`
+to see them. Without it, the section says that the articles could not be loaded, and the rest of
+the page works as usual.
+
+### Changing the address of the API
+
+The address is read from the `VITE_API_URL` variable. The default, in the committed `.env` file, is
+the local API:
+
+```dotenv
+VITE_API_URL=http://localhost/api/v1
+```
+
+To use another API, do not edit the code or `.env`. Do one of these instead:
+
+- Create `.env.local` (Git ignores it) next to `.env`, with your own address:
+
+  ```dotenv
+  VITE_API_URL=https://api.example.com/api/v1
+  ```
+
+- Or set the variable for one command:
+
+  ```shell
+  VITE_API_URL=https://api.example.com/api/v1 yarn build
+  ```
+
+Vite puts the address into the app when it starts (`yarn dev`) or builds it (`yarn build`), so
+restart `yarn dev` or build again after you change it.
+
+The local API accepts requests only from http://localhost:5173 (its CORS setting), so use `yarn dev`
+to see real articles. The end-to-end tests do not need the API: they answer for it themselves.
+
 ## Available scripts
 
 | Script            | What it does                         |
@@ -59,6 +92,7 @@ with Swagger documentation at http://localhost/api.
 | `yarn build`      | Production build                     |
 | `yarn preview`    | Preview of the production build      |
 | `yarn test --run` | Unit tests (Vitest), single run      |
+| `yarn e2e`        | End-to-end tests (Playwright)        |
 | `yarn lint`       | Lint with Biome                      |
 | `yarn lint:fix`   | Lint and fix with Biome              |
 | `yarn storybook`  | Storybook at localhost:6006          |
