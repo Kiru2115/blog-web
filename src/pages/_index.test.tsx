@@ -5,7 +5,13 @@ import {
   PHOTOS,
   PHOTOS_SECTION_ID,
 } from "@/constants/about-me";
+import { getArticles } from "@/services/api/client/articles";
 import Index from "./_index";
+
+// The page must never call the real API in unit tests. By default the articles never come.
+vi.mock("@/services/api/client/articles", () => ({
+  getArticles: vi.fn(() => new Promise(() => {})),
+}));
 
 describe("<Index /> home page", () => {
   describe("when a visitor opens it", () => {
@@ -27,6 +33,7 @@ describe("<Index /> home page", () => {
 
       expect(sectionHeadings).toEqual([
         "About me",
+        "Blog",
         "Interests",
         "Achievements",
         "Currently learning",
@@ -61,6 +68,34 @@ describe("<Index /> home page", () => {
       render(<Index />);
 
       expect(screen.getByRole("main")).toHaveClass("max-w-3xl", "mx-auto");
+    });
+
+    it("shows the rest of the page while the articles are still loading", () => {
+      render(<Index />);
+
+      expect(screen.getByRole("region", { name: "Blog" })).toHaveTextContent(
+        "Loading articles…",
+      );
+      expect(
+        screen.getByRole("region", { name: "Contact" }),
+      ).toBeInTheDocument();
+    });
+
+    it("shows the articles from the API in the blog section", async () => {
+      vi.mocked(getArticles).mockResolvedValueOnce([
+        {
+          id: "5e1f0a2b-0001-4000-8000-000000000001",
+          title: "Hello, world",
+          content: "The first article on my blog.",
+          publishedAt: "2026-11-01T12:00:00.000Z",
+        },
+      ]);
+
+      render(<Index />);
+
+      expect(
+        await screen.findByRole("heading", { level: 3, name: "Hello, world" }),
+      ).toBeInTheDocument();
     });
 
     it("shows a footer with the current year", () => {

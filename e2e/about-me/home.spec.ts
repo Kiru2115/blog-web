@@ -9,6 +9,17 @@ const openHomePage = async (page: Page) => {
 };
 
 test.describe("Given a visitor on the home page", () => {
+  // The API does not run in CI. These tests are about the rest of the page,
+  // so the blog section gets an empty list (see e2e/blog/home.spec.ts).
+  test.beforeEach(async ({ page }) => {
+    await page.route("**/api/v1/articles", (route) =>
+      route.fulfill({
+        json: [],
+        headers: { "access-control-allow-origin": "*" },
+      }),
+    );
+  });
+
   test("When the page opens, Then it shows the author's name as the main heading", async ({
     page,
   }) => {

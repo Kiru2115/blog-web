@@ -2,6 +2,7 @@ import bookOpenIcon from "@/assets/icons/book-open.svg";
 import cameraIcon from "@/assets/icons/camera.svg";
 import codeIcon from "@/assets/icons/code.svg";
 import heartIcon from "@/assets/icons/heart.svg";
+import newspaperIcon from "@/assets/icons/newspaper.svg";
 import sendIcon from "@/assets/icons/send.svg";
 import trophyIcon from "@/assets/icons/trophy.svg";
 import userIcon from "@/assets/icons/user.svg";
@@ -14,6 +15,7 @@ import ProjectList from "@/components/about-me/ProjectList/ProjectList";
 import SiteFooter from "@/components/about-me/SiteFooter/SiteFooter";
 import TagList from "@/components/about-me/TagList/TagList";
 import TextSection from "@/components/about-me/TextSection/TextSection";
+import BlogSection from "@/components/blog/BlogSection/BlogSection";
 import {
   ACHIEVEMENTS,
   AUTHOR_BIO,
@@ -43,6 +45,7 @@ const Index = () => {
           title={<IconTitle icon={userIcon}>About me</IconTitle>}
           text={AUTHOR_BIO}
         />
+        <BlogSection title={<IconTitle icon={newspaperIcon}>Blog</IconTitle>} />
         <TagList
           title={<IconTitle icon={heartIcon}>Interests</IconTitle>}
           tags={INTERESTS}
