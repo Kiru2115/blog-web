@@ -1,5 +1,5 @@
-import { Section } from "@gi-org-pl/athena";
 import type { ReactNode } from "react";
+import PageSection from "@/components/shared/PageSection/PageSection";
 
 interface Props {
   title: ReactNode;
@@ -8,9 +8,9 @@ interface Props {
 
 const TextSection = ({ title, text }: Props) => {
   return (
-    <Section title={title}>
+    <PageSection title={title}>
       <p className="text-lg leading-relaxed wrap-break-word">{text}</p>
-    </Section>
+    </PageSection>
   );
 };
 

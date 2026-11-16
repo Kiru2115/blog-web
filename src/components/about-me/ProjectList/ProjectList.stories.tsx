@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import appWindowIcon from "@/assets/icons/app-window.svg";
+import serverIcon from "@/assets/icons/server.svg";
 import ProjectList from "./ProjectList";
 
 const meta = {
@@ -18,6 +19,7 @@ const meta = {
           "The back end of my blog: a REST API with Swagger documentation, running in Docker.",
         url: "https://github.com/Kiru2115/blog-api",
         technologies: ["Nest.js", "Prisma", "PostgreSQL", "Docker"],
+        icon: serverIcon,
       },
       {
         name: "blog-web",
@@ -25,6 +27,7 @@ const meta = {
           "The front end of my blog, including the page you are reading.",
         url: "https://github.com/Kiru2115/blog-web",
         technologies: ["React", "Vite", "Tailwind CSS", "Playwright"],
+        icon: appWindowIcon,
       },
     ],
   },
@@ -43,6 +46,7 @@ export const SingleProject: Story = {
         description: "The back end of my blog.",
         url: "https://github.com/Kiru2115/blog-api",
         technologies: ["Nest.js"],
+        icon: serverIcon,
       },
     ],
   },
@@ -56,6 +60,7 @@ export const LongDescription: Story = {
         description: "Supercalifragilisticexpialidocious".repeat(3),
         url: "https://github.com/Kiru2115/blog-api",
         technologies: ["Nest.js", "Prisma"],
+        icon: serverIcon,
       },
     ],
   },

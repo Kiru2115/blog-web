@@ -13,7 +13,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-gi-dark-primary text-gi-ash">
         {children}
         <ScrollRestoration />
         <Scripts />

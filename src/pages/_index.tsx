@@ -9,6 +9,7 @@ import userIcon from "@/assets/icons/user.svg";
 import AchievementList from "@/components/about-me/AchievementList/AchievementList";
 import ContactLinks from "@/components/about-me/ContactLinks/ContactLinks";
 import IconTitle from "@/components/about-me/IconTitle/IconTitle";
+import InterestGrid from "@/components/about-me/InterestGrid/InterestGrid";
 import PhotoGallery from "@/components/about-me/PhotoGallery/PhotoGallery";
 import ProfileHeader from "@/components/about-me/ProfileHeader/ProfileHeader";
 import ProjectList from "@/components/about-me/ProjectList/ProjectList";
@@ -46,9 +47,9 @@ const Index = () => {
           text={AUTHOR_BIO}
         />
         <BlogSection title={<IconTitle icon={newspaperIcon}>Blog</IconTitle>} />
-        <TagList
+        <InterestGrid
           title={<IconTitle icon={heartIcon}>Interests</IconTitle>}
-          tags={INTERESTS}
+          interests={INTERESTS}
         />
         <AchievementList
           title={<IconTitle icon={trophyIcon}>Achievements</IconTitle>}
@@ -57,7 +58,6 @@ const Index = () => {
         <TagList
           title={<IconTitle icon={bookOpenIcon}>Currently learning</IconTitle>}
           tags={CURRENTLY_LEARNING}
-          variant="primary"
         />
         <ProjectList
           title={<IconTitle icon={codeIcon}>Projects</IconTitle>}

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import type { HeroLink, Photo } from "@/types/about-me";
 import ProfileHeader from "./ProfileHeader";
 
@@ -10,8 +10,8 @@ const PORTRAIT: Photo = {
 };
 
 const LINKS: HeroLink[] = [
-  { label: "GitHub", url: "https://github.com/example", isPrimary: true },
-  { label: "See my photos", url: "#photos" },
+  { label: "GitHub", url: "https://github.com/example", variant: "terminal" },
+  { label: "See my photos", url: "#photos", variant: "shutter" },
 ];
 
 const renderHeader = (name = "Alan Maroń", links = LINKS) =>
@@ -53,22 +53,25 @@ describe("<ProfileHeader />", () => {
 
       const links = screen.getAllByRole("link");
 
-      expect(links.map((link) => link.textContent)).toEqual([
-        "GitHub",
-        "See my photos",
-      ]);
+      expect(links).toHaveLength(2);
+      expect(links[0]).toHaveAccessibleName("GitHub");
+      expect(links[0]).toHaveAttribute("href", "https://github.com/example");
+      expect(links[1]).toHaveAccessibleName("See my photos");
       expect(links[1]).toHaveAttribute("href", "#photos");
     });
 
-    it("styles only the primary link as a filled button", () => {
+    it("shows a terminal link as a console command and a shutter link as a camera button", () => {
       renderHeader();
 
-      expect(screen.getByRole("link", { name: "GitHub" })).toHaveClass(
-        "bg-gi-primary",
-      );
+      const github = screen.getByRole("link", { name: "GitHub" });
+      const photos = screen.getByRole("link", { name: "See my photos" });
+
+      expect(within(github).getByTestId("terminal-cursor")).toBeInTheDocument();
+      expect(within(github).queryByTestId("shutter")).not.toBeInTheDocument();
+      expect(within(photos).getByTestId("shutter")).toBeInTheDocument();
       expect(
-        screen.getByRole("link", { name: "See my photos" }),
-      ).not.toHaveClass("bg-gi-primary");
+        within(photos).queryByTestId("terminal-cursor"),
+      ).not.toBeInTheDocument();
     });
   });
 

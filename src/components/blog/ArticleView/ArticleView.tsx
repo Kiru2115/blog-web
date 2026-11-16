@@ -18,14 +18,14 @@ const ArticleView = ({ id, loadArticle = getArticle }: Props) => {
     <div className="flex flex-col gap-8" aria-busy={state.status === "loading"}>
       <Link
         to="/"
-        className="self-start rounded-sm font-bold text-gi-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gi-primary"
+        className="self-start rounded-sm font-bold text-gi-orange underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gi-orange"
       >
         <span aria-hidden="true">← </span>
         Back to the about me page
       </Link>
 
       {state.status === "loading" && (
-        <p role="status" className="text-lg text-gi-dark-gray">
+        <p role="status" className="text-lg text-gi-gray">
           Loading the article…
         </p>
       )}
@@ -34,10 +34,10 @@ const ArticleView = ({ id, loadArticle = getArticle }: Props) => {
 
       {state.status === "notFound" && (
         <div className="flex flex-col gap-4">
-          <h1 className="text-3xl font-extrabold text-gi-primary sm:text-4xl">
+          <h1 className="text-3xl font-extrabold text-white sm:text-4xl">
             Article not found
           </h1>
-          <InfoMessage>
+          <InfoMessage variant="info">
             There is no article at this address. It may have been deleted, or
             the link has a mistake.
           </InfoMessage>
@@ -46,13 +46,13 @@ const ArticleView = ({ id, loadArticle = getArticle }: Props) => {
 
       {state.status === "error" && (
         <div className="flex flex-col items-start gap-4">
-          <h1 className="text-3xl font-extrabold text-gi-primary sm:text-4xl">
+          <h1 className="text-3xl font-extrabold text-white sm:text-4xl">
             Something went wrong
           </h1>
           <InfoMessage role="alert" variant="error">
             The article could not be loaded.
           </InfoMessage>
-          <Button type="outlined" size="small" onClick={retry}>
+          <Button type="ghost" size="small" onClick={retry}>
             Try again
           </Button>
         </div>

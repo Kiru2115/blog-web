@@ -10,7 +10,9 @@ const ArticlePage = () => {
   return (
     <>
       <main className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-8 sm:py-14">
-        <ArticleView id={id} />
+        <div className="rounded-xl border border-white/10 bg-gi-primary/30 p-6 sm:p-8">
+          <ArticleView id={id} />
+        </div>
       </main>
       <SiteFooter name={AUTHOR_NAME} year={new Date().getFullYear()} />
     </>
