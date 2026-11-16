@@ -1,4 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import type { ReactElement } from "react";
+import { MemoryRouter } from "react-router";
 import { getArticles } from "@/services/api/client/articles";
 import type { Article } from "@/services/api/schemas/article";
 import BlogSection from "./BlogSection";
@@ -23,12 +25,16 @@ const ARTICLES: Article[] = [
   },
 ];
 
+/** The article titles are links, and links need a router around them. */
+const renderInRouter = (ui: ReactElement) =>
+  render(<MemoryRouter>{ui}</MemoryRouter>);
+
 const neverAnswers: LoadArticles = () => new Promise(() => {});
 
 describe("<BlogSection />", () => {
   describe("when the articles are loading", () => {
     it("shows the title as a section heading", () => {
-      render(<BlogSection title="Blog" loadArticles={neverAnswers} />);
+      renderInRouter(<BlogSection title="Blog" loadArticles={neverAnswers} />);
 
       expect(
         screen.getByRole("heading", { level: 2, name: "Blog" }),
@@ -36,7 +42,7 @@ describe("<BlogSection />", () => {
     });
 
     it("says that it is loading and marks the section as busy", () => {
-      render(<BlogSection title="Blog" loadArticles={neverAnswers} />);
+      renderInRouter(<BlogSection title="Blog" loadArticles={neverAnswers} />);
 
       expect(screen.getByRole("status")).toHaveTextContent("Loading articles…");
       expect(screen.getByRole("region", { name: "Blog" })).toHaveAttribute(
@@ -50,7 +56,7 @@ describe("<BlogSection />", () => {
     it("lists every article title, in the order the API sent them", async () => {
       const load = vi.fn<LoadArticles>().mockResolvedValue(ARTICLES);
 
-      render(<BlogSection title="Blog" loadArticles={load} />);
+      renderInRouter(<BlogSection title="Blog" loadArticles={load} />);
 
       await screen.findByRole("list", { name: "Articles" });
       expect(
@@ -70,7 +76,7 @@ describe("<BlogSection />", () => {
     it("says so instead of showing an empty list", async () => {
       const load = vi.fn<LoadArticles>().mockResolvedValue([]);
 
-      render(<BlogSection title="Blog" loadArticles={load} />);
+      renderInRouter(<BlogSection title="Blog" loadArticles={load} />);
 
       expect(
         await screen.findByText("No articles yet. Come back soon."),
@@ -83,7 +89,7 @@ describe("<BlogSection />", () => {
     it("shows an error with a way to try again", async () => {
       const load = vi.fn<LoadArticles>().mockRejectedValue(new Error("down"));
 
-      render(<BlogSection title="Blog" loadArticles={load} />);
+      renderInRouter(<BlogSection title="Blog" loadArticles={load} />);
 
       expect(await screen.findByRole("alert")).toHaveTextContent(
         "The articles could not be loaded.",
@@ -100,7 +106,7 @@ describe("<BlogSection />", () => {
         .fn<LoadArticles>()
         .mockRejectedValueOnce(new Error("down"))
         .mockResolvedValueOnce(ARTICLES);
-      render(<BlogSection title="Blog" loadArticles={load} />);
+      renderInRouter(<BlogSection title="Blog" loadArticles={load} />);
 
       fireEvent.click(await screen.findByRole("button", { name: "Try again" }));
 
@@ -115,7 +121,7 @@ describe("<BlogSection />", () => {
     it("loads the articles from the API", async () => {
       vi.mocked(getArticles).mockResolvedValue(ARTICLES);
 
-      render(<BlogSection title="Blog" />);
+      renderInRouter(<BlogSection title="Blog" />);
 
       expect(await screen.findByText("Hello, world")).toBeInTheDocument();
       expect(getArticles).toHaveBeenCalledWith(expect.any(AbortSignal));

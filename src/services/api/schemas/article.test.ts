@@ -1,4 +1,4 @@
-import { articleListSchema, articleSchema } from "./article";
+import { articleIdSchema, articleListSchema, articleSchema } from "./article";
 
 const ARTICLE = {
   id: "5e1f0a2b-0001-4000-8000-000000000001",
@@ -55,6 +55,19 @@ describe("articleListSchema", () => {
       expect(articleListSchema.safeParse({ items: [ARTICLE] }).success).toBe(
         false,
       );
+    });
+  });
+});
+
+describe("articleIdSchema", () => {
+  describe.each([
+    ["5e1f0a2b-0001-4000-8000-000000000001", true],
+    ["not-a-valid-id", false],
+    ["123", false],
+    ["", false],
+  ])("when the ID is %j", (id, valid) => {
+    it(`${valid ? "accepts" : "rejects"} it`, () => {
+      expect(articleIdSchema.safeParse(id).success).toBe(valid);
     });
   });
 });

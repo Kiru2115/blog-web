@@ -1,7 +1,7 @@
 import type { AxiosResponse } from "axios";
 import { ApiError } from "@/services/api/utils/apiError";
 import { apiClient } from "./apiClient";
-import { getArticles } from "./articles";
+import { getArticle, getArticles } from "./articles";
 
 const ARTICLES = [
   {
@@ -67,6 +67,57 @@ describe("getArticles", () => {
       vi.spyOn(apiClient, "get").mockRejectedValue(error);
 
       await expect(getArticles()).rejects.toBe(error);
+    });
+  });
+});
+
+describe("getArticle", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  describe("when the API answers with the article", () => {
+    it("asks for /articles/{id} and returns the article", async () => {
+      const get = answerWith(ARTICLES[0]);
+      const { signal } = new AbortController();
+
+      await expect(getArticle(ARTICLES[0].id, signal)).resolves.toEqual(
+        ARTICLES[0],
+      );
+      expect(get).toHaveBeenCalledWith(`/articles/${ARTICLES[0].id}`, {
+        signal,
+      });
+    });
+  });
+
+  describe("when the ID has characters that mean something in an address", () => {
+    it("encodes them, so the ID stays one part of the address", async () => {
+      const get = answerWith(ARTICLES[0]);
+
+      await getArticle("../status?x=1").catch(() => undefined);
+
+      expect(get).toHaveBeenCalledWith("/articles/..%2Fstatus%3Fx%3D1", {
+        signal: undefined,
+      });
+    });
+  });
+
+  describe("when the answer does not match the schema", () => {
+    it("rejects with an ApiError", async () => {
+      answerWith({ ...ARTICLES[0], content: 42 });
+
+      await expect(getArticle(ARTICLES[0].id)).rejects.toThrow(ApiError);
+    });
+  });
+
+  describe("when the API answers 404", () => {
+    it("rejects with the ApiError from the client, status included", async () => {
+      const error = new ApiError("The API answered with status 404.", {
+        status: 404,
+      });
+      vi.spyOn(apiClient, "get").mockRejectedValue(error);
+
+      await expect(getArticle(ARTICLES[0].id)).rejects.toBe(error);
     });
   });
 });

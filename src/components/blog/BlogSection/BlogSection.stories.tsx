@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { MemoryRouter } from "react-router";
 import type { Article } from "@/services/api/schemas/article";
 import BlogSection from "./BlogSection";
 import type { LoadArticles } from "./utils/useArticles";
@@ -38,6 +39,14 @@ const loadLongTitle: LoadArticles = () =>
 const meta = {
   title: "blog/BlogSection",
   component: BlogSection,
+  // The titles are links, and links need a router around them.
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
   parameters: {
     layout: "padded",
   },

@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 import {
   AUTHOR_NAME,
   AUTHOR_PORTRAIT,
@@ -8,6 +9,14 @@ import {
 import { getArticles } from "@/services/api/client/articles";
 import Index from "./_index";
 
+/** The article titles in the blog section are links, and links need a router around them. */
+const renderPage = () =>
+  render(
+    <MemoryRouter>
+      <Index />
+    </MemoryRouter>,
+  );
+
 // The page must never call the real API in unit tests. By default the articles never come.
 vi.mock("@/services/api/client/articles", () => ({
   getArticles: vi.fn(() => new Promise(() => {})),
@@ -16,7 +25,7 @@ vi.mock("@/services/api/client/articles", () => ({
 describe("<Index /> home page", () => {
   describe("when a visitor opens it", () => {
     it("shows the author's name as the only main heading", () => {
-      render(<Index />);
+      renderPage();
 
       const mainHeadings = screen.getAllByRole("heading", { level: 1 });
 
@@ -25,7 +34,7 @@ describe("<Index /> home page", () => {
     });
 
     it("shows every section of the page, in order", () => {
-      render(<Index />);
+      renderPage();
 
       const sectionHeadings = screen
         .getAllByRole("heading", { level: 2 })
@@ -44,7 +53,7 @@ describe("<Index /> home page", () => {
     });
 
     it("gives the portrait and every photo a text alternative", () => {
-      render(<Index />);
+      renderPage();
 
       for (const image of [AUTHOR_PORTRAIT, ...PHOTOS]) {
         expect(
@@ -54,7 +63,7 @@ describe("<Index /> home page", () => {
     });
 
     it("links from the header to the photography section", () => {
-      render(<Index />);
+      renderPage();
 
       expect(
         screen.getByRole("link", { name: "See my photos" }),
@@ -65,13 +74,13 @@ describe("<Index /> home page", () => {
     });
 
     it("keeps the content at a comfortable reading width", () => {
-      render(<Index />);
+      renderPage();
 
       expect(screen.getByRole("main")).toHaveClass("max-w-3xl", "mx-auto");
     });
 
     it("shows the rest of the page while the articles are still loading", () => {
-      render(<Index />);
+      renderPage();
 
       expect(screen.getByRole("region", { name: "Blog" })).toHaveTextContent(
         "Loading articles…",
@@ -91,7 +100,7 @@ describe("<Index /> home page", () => {
         },
       ]);
 
-      render(<Index />);
+      renderPage();
 
       expect(
         await screen.findByRole("heading", { level: 3, name: "Hello, world" }),
@@ -99,7 +108,7 @@ describe("<Index /> home page", () => {
     });
 
     it("shows a footer with the current year", () => {
-      render(<Index />);
+      renderPage();
 
       expect(screen.getByRole("contentinfo")).toHaveTextContent(
         `© ${new Date().getFullYear()} ${AUTHOR_NAME}`,

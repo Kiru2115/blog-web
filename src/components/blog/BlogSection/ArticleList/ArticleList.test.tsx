@@ -1,6 +1,15 @@
 import { render, screen, within } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 import type { Article } from "@/services/api/schemas/article";
 import ArticleList from "./ArticleList";
+
+/** The titles are links, and links need a router around them. */
+const renderList = (articles: Article[]) =>
+  render(
+    <MemoryRouter>
+      <ArticleList articles={articles} />
+    </MemoryRouter>,
+  );
 
 const ARTICLES: Article[] = [
   {
@@ -20,7 +29,7 @@ const ARTICLES: Article[] = [
 describe("<ArticleList />", () => {
   describe("when it is rendered with articles", () => {
     it("shows every title as a sub-heading, in the order it got them", () => {
-      render(<ArticleList articles={ARTICLES} />);
+      renderList(ARTICLES);
 
       const titles = screen
         .getAllByRole("heading", { level: 3 })
@@ -33,7 +42,7 @@ describe("<ArticleList />", () => {
     });
 
     it("shows the publication date of every article in words", () => {
-      render(<ArticleList articles={ARTICLES} />);
+      renderList(ARTICLES);
 
       const [newest] = screen.getAllByRole("listitem");
 
@@ -43,8 +52,19 @@ describe("<ArticleList />", () => {
       );
     });
 
+    it("links every title to the page of its article", () => {
+      renderList(ARTICLES);
+
+      expect(
+        screen.getByRole("link", { name: "Hello, world" }),
+      ).toHaveAttribute(
+        "href",
+        "/articles/5e1f0a2b-0001-4000-8000-000000000001",
+      );
+    });
+
     it("does not show the text of the articles", () => {
-      render(<ArticleList articles={ARTICLES} />);
+      renderList(ARTICLES);
 
       expect(
         screen.queryByText("How I set up my machine."),
@@ -54,13 +74,7 @@ describe("<ArticleList />", () => {
 
   describe("when a title is very long", () => {
     it("lets the title wrap instead of overflowing", () => {
-      render(
-        <ArticleList
-          articles={[
-            { ...ARTICLES[0], title: "Supercalifragilistic".repeat(8) },
-          ]}
-        />,
-      );
+      renderList([{ ...ARTICLES[0], title: "Supercalifragilistic".repeat(8) }]);
 
       expect(screen.getByRole("heading", { level: 3 })).toHaveClass(
         "wrap-break-word",
