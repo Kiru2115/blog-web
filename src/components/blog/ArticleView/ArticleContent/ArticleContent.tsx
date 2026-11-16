@@ -16,13 +16,10 @@ const ArticleContent = ({ article }: Props) => {
   return (
     <article className="flex flex-col gap-8">
       <header className="flex flex-col gap-3">
-        <h1 className="text-3xl font-extrabold text-gi-primary wrap-break-word sm:text-4xl">
+        <h1 className="text-3xl font-extrabold text-white wrap-break-word sm:text-4xl">
           {article.title}
         </h1>
-        <time
-          dateTime={article.publishedAt}
-          className="text-sm text-gi-dark-gray"
-        >
+        <time dateTime={article.publishedAt} className="text-sm text-gi-gray">
           {formatDate(article.publishedAt)}
         </time>
       </header>

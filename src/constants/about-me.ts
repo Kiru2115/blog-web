@@ -1,3 +1,12 @@
+import appWindowIcon from "@/assets/icons/app-window.svg";
+import bikeIcon from "@/assets/icons/bike.svg";
+import cameraIcon from "@/assets/icons/camera.svg";
+import gamepadIcon from "@/assets/icons/gamepad.svg";
+import heartPulseIcon from "@/assets/icons/heart-pulse.svg";
+import monitorIcon from "@/assets/icons/monitor.svg";
+import planeIcon from "@/assets/icons/plane.svg";
+import serverIcon from "@/assets/icons/server.svg";
+import shieldCheckIcon from "@/assets/icons/shield-check.svg";
 import castleAboveLake from "@/assets/images/castle-above-lake.jpg";
 import fireBreather from "@/assets/images/fire-breather.jpg";
 import greenMclarenDoorsOpen from "@/assets/images/green-mclaren-doors-open.jpg";
@@ -5,12 +14,13 @@ import lamborghiniInterior from "@/assets/images/lamborghini-interior.jpg";
 import mclarenWheel from "@/assets/images/mclaren-wheel.jpg";
 import mistyForest from "@/assets/images/misty-forest.jpg";
 import poppyInGrass from "@/assets/images/poppy-in-grass.jpg";
-import portrait from "@/assets/images/portrait.jpg";
+/** import portrait from "@/assets/images/portrait.jpg"; */
 import sunsetOverPlain from "@/assets/images/sunset-over-plain.jpg";
 import type {
   Achievement,
   ContactLink,
   HeroLink,
+  Interest,
   Photo,
   Project,
 } from "@/types/about-me";
@@ -20,7 +30,7 @@ export const AUTHOR_NAME = "Alan Maroń";
 export const AUTHOR_TAGLINE = "An IT enthusiast through and through.";
 
 export const AUTHOR_PORTRAIT: Photo = {
-  src: portrait,
+  src: mistyForest,
   alt: "Portrait of Alan Maroń",
   width: 480,
   height: 480,
@@ -34,18 +44,18 @@ export const GITHUB_URL = "https://github.com/Kiru2115";
 export const PHOTOS_SECTION_ID = "photos";
 
 export const HERO_LINKS: HeroLink[] = [
-  { label: "GitHub", url: GITHUB_URL, isPrimary: true },
-  { label: "See my photos", url: `#${PHOTOS_SECTION_ID}` },
+  { label: "GitHub", url: GITHUB_URL, variant: "terminal" },
+  { label: "See my photos", url: `#${PHOTOS_SECTION_ID}`, variant: "shutter" },
 ];
 
-export const INTERESTS: string[] = [
-  "Computer science",
-  "Cybersecurity",
-  "Photography",
-  "All kinds of sport",
-  "Gaming",
-  "Healthy lifestyle",
-  "Travel",
+export const INTERESTS: Interest[] = [
+  { label: "Computer science", icon: monitorIcon },
+  { label: "Cybersecurity", icon: shieldCheckIcon },
+  { label: "Photography", icon: cameraIcon },
+  { label: "All kinds of sport", icon: bikeIcon },
+  { label: "Gaming", icon: gamepadIcon },
+  { label: "Healthy lifestyle", icon: heartPulseIcon },
+  { label: "Travel", icon: planeIcon },
 ];
 
 export const ACHIEVEMENTS: Achievement[] = [
@@ -74,6 +84,7 @@ export const PROJECTS: Project[] = [
       "The back end of my blog: a REST API with Swagger documentation, running in Docker.",
     url: "https://github.com/Kiru2115/blog-api",
     technologies: ["Nest.js", "Prisma", "PostgreSQL", "Docker"],
+    icon: serverIcon,
   },
   {
     name: "blog-web",
@@ -81,6 +92,7 @@ export const PROJECTS: Project[] = [
       "The front end of my blog, including the page you are reading.",
     url: "https://github.com/Kiru2115/blog-web",
     technologies: ["React", "Vite", "Tailwind CSS", "Playwright"],
+    icon: appWindowIcon,
   },
 ];
 

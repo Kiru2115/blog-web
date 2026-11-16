@@ -1,5 +1,5 @@
-import { Section } from "@gi-org-pl/athena";
 import type { ReactNode } from "react";
+import PageSection from "@/components/shared/PageSection/PageSection";
 import type { Photo } from "@/types/about-me";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 
 const PhotoGallery = ({ id, title, photos }: Props) => {
   return (
-    <Section id={id} title={title}>
+    <PageSection id={id} title={title}>
       <ul className="columns-1 gap-4 sm:columns-2">
         {photos.map((photo, index) => (
           <li
@@ -19,7 +19,7 @@ const PhotoGallery = ({ id, title, photos }: Props) => {
               index === 0 ? "mb-4 [column-span:all]" : "mb-4 break-inside-avoid"
             }
           >
-            <div className="overflow-hidden rounded-2xl">
+            <div className="overflow-hidden rounded-lg">
               <img
                 src={photo.src}
                 alt={photo.alt}
@@ -32,7 +32,7 @@ const PhotoGallery = ({ id, title, photos }: Props) => {
           </li>
         ))}
       </ul>
-    </Section>
+    </PageSection>
   );
 };
 

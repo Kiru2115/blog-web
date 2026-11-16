@@ -9,34 +9,20 @@ const meta = {
     layout: "padded",
   },
   tags: ["autodocs"],
-  argTypes: {
-    variant: {
-      control: "select",
-      options: ["primary", "secondary", "outlined"],
-    },
-  },
   args: {
-    title: "Interests",
-    tags: ["Computer science", "Cybersecurity", "Photography", "Travel"],
+    title: "Currently learning",
+    tags: ["TypeScript", "React", "Nest.js", "Docker", "Git", "Linux"],
   },
 } satisfies Meta<typeof TagList>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Secondary: Story = {};
+export const Default: Story = {};
 
-export const Primary: Story = {
+export const LongTag: Story = {
   args: {
-    title: "Currently learning",
-    tags: ["TypeScript", "React", "Nest.js", "Docker", "Git", "Linux"],
-    variant: "primary",
-  },
-};
-
-export const Outlined: Story = {
-  args: {
-    variant: "outlined",
+    tags: ["TypeScript", "Infrastructure as code with Terraform and Ansible"],
   },
 };
 

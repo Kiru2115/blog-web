@@ -1,8 +1,18 @@
 import type { Preview } from "@storybook/react-vite";
+import { createElement } from "react";
 
 import "../src/index.css";
 
 const preview: Preview = {
+  // The site is dark, so every story shows its component on the page background.
+  decorators: [
+    (Story) =>
+      createElement(
+        "div",
+        { className: "bg-gi-dark-primary p-6 text-gi-ash" },
+        createElement(Story),
+      ),
+  ],
   parameters: {
     controls: {
       matchers: {

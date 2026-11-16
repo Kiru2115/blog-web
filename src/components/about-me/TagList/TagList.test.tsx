@@ -4,50 +4,51 @@ import TagList from "./TagList";
 describe("<TagList />", () => {
   describe("when it is rendered with a title and tags", () => {
     it("shows the title as a section heading", () => {
-      render(<TagList title="Interests" tags={["Gaming", "Travel"]} />);
+      render(
+        <TagList title="Currently learning" tags={["TypeScript", "React"]} />,
+      );
 
       expect(
-        screen.getByRole("heading", { level: 2, name: "Interests" }),
+        screen.getByRole("heading", { level: 2, name: "Currently learning" }),
       ).toBeInTheDocument();
     });
 
     it("shows every tag as a list item, in order", () => {
-      render(<TagList title="Interests" tags={["Gaming", "Travel"]} />);
+      render(
+        <TagList title="Currently learning" tags={["TypeScript", "React"]} />,
+      );
 
       const items = within(screen.getByRole("list")).getAllByRole("listitem");
 
-      expect(items.map((item) => item.textContent)).toEqual([
-        "Gaming",
-        "Travel",
-      ]);
+      expect(items).toHaveLength(2);
+      expect(within(items[0]).getByText("TypeScript")).toBeInTheDocument();
+      expect(within(items[1]).getByText("React")).toBeInTheDocument();
     });
 
-    it("uses the secondary badge style by default", () => {
-      render(<TagList title="Interests" tags={["Gaming"]} />);
+    it("starts every tag with a terminal prompt that screen readers skip", () => {
+      render(<TagList title="Currently learning" tags={["TypeScript"]} />);
 
-      expect(screen.getByText("Gaming").parentElement).toHaveClass("bg-gi-ash");
+      const prompt = within(screen.getByRole("listitem")).getByText(">");
+
+      expect(prompt).toHaveAttribute("aria-hidden", "true");
     });
   });
 
-  describe("when the primary variant is chosen", () => {
-    it("uses the primary badge style", () => {
+  describe("when a tag is very long", () => {
+    it("lets the tag wrap instead of overflowing", () => {
       render(
-        <TagList
-          title="Currently learning"
-          tags={["React"]}
-          variant="primary"
-        />,
+        <TagList title="Currently learning" tags={["Kubernetes".repeat(8)]} />,
       );
 
-      expect(screen.getByText("React").parentElement).toHaveClass(
-        "bg-gi-primary",
+      expect(screen.getByText("Kubernetes".repeat(8))).toHaveClass(
+        "wrap-break-word",
       );
     });
   });
 
   describe("when there are no tags", () => {
     it("shows an empty list", () => {
-      render(<TagList title="Interests" tags={[]} />);
+      render(<TagList title="Currently learning" tags={[]} />);
 
       expect(screen.queryAllByRole("listitem")).toHaveLength(0);
     });

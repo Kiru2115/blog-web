@@ -29,7 +29,7 @@ describe("<IconTitle />", () => {
 
       const icon = screen.getByTestId("icon-title-icon");
 
-      expect(icon).toHaveClass("bg-gi-secondary");
+      expect(icon).toHaveClass("bg-gi-orange");
       expect(icon.style.maskImage).toBe('url("/heart.svg")');
     });
   });

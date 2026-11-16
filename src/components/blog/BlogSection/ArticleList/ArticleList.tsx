@@ -8,24 +8,24 @@ interface Props {
 
 const ArticleList = ({ articles }: Props) => {
   return (
-    <ul aria-label="Articles" className="flex flex-col divide-y divide-gi-ash">
+    <ul
+      aria-label="Articles"
+      className="flex flex-col divide-y divide-white/10"
+    >
       {articles.map((article) => (
         <li
           key={article.id}
           className="flex flex-col gap-1 py-4 first:pt-0 last:pb-0"
         >
-          <h3 className="text-lg font-bold text-gi-primary wrap-break-word">
+          <h3 className="text-lg font-bold text-white wrap-break-word">
             <Link
               to={`/articles/${article.id}`}
-              className="rounded-sm underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gi-primary"
+              className="rounded-sm underline-offset-4 hover:text-gi-orange hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gi-orange"
             >
               {article.title}
             </Link>
           </h3>
-          <time
-            dateTime={article.publishedAt}
-            className="text-sm text-gi-dark-gray"
-          >
+          <time dateTime={article.publishedAt} className="text-sm text-gi-gray">
             {formatDate(article.publishedAt)}
           </time>
         </li>

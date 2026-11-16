@@ -20,8 +20,12 @@ const meta = {
       height: 480,
     },
     links: [
-      { label: "GitHub", url: "https://github.com/Kiru2115", isPrimary: true },
-      { label: "See my photos", url: "#photos" },
+      {
+        label: "GitHub",
+        url: "https://github.com/Kiru2115",
+        variant: "terminal",
+      },
+      { label: "See my photos", url: "#photos", variant: "shutter" },
     ],
   },
 } satisfies Meta<typeof ProfileHeader>;

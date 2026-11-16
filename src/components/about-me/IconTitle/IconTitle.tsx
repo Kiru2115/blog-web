@@ -11,7 +11,7 @@ const IconTitle = ({ icon, children }: Props) => {
       <span
         aria-hidden="true"
         data-testid="icon-title-icon"
-        className="size-7 shrink-0 bg-gi-secondary mask-contain mask-center mask-no-repeat"
+        className="size-6 shrink-0 bg-gi-orange mask-contain mask-center mask-no-repeat"
         style={{ maskImage: `url("${icon}")` }}
       />
       <span className="min-w-0 wrap-break-word">{children}</span>

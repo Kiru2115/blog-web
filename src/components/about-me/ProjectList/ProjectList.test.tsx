@@ -8,12 +8,14 @@ const PROJECTS: Project[] = [
     description: "The back end of my blog.",
     url: "https://github.com/example/blog-api",
     technologies: ["Nest.js", "Prisma"],
+    icon: "/icons/server.svg",
   },
   {
     name: "blog-web",
     description: "The front end of my blog.",
     url: "https://github.com/example/blog-web",
     technologies: ["React"],
+    icon: "/icons/app-window.svg",
   },
 ];
 
@@ -58,7 +60,7 @@ describe("<ProjectList />", () => {
       ).toEqual(["Nest.js", "Prisma"]);
     });
 
-    it("links to every project on GitHub", () => {
+    it("links to every project on GitHub, with the project name in the link name", () => {
       render(<ProjectList title="Projects" projects={PROJECTS} />);
 
       expect(
@@ -70,13 +72,24 @@ describe("<ProjectList />", () => {
     });
   });
 
+  describe("when a project has an icon", () => {
+    it("shows the icon, hidden from screen readers", () => {
+      render(<ProjectList title="Projects" projects={PROJECTS} />);
+
+      const [apiIcon] = screen.getAllByTestId("project-icon");
+
+      expect(apiIcon.parentElement).toHaveAttribute("aria-hidden", "true");
+      expect(apiIcon).toHaveStyle({ maskImage: 'url("/icons/server.svg")' });
+    });
+  });
+
   describe("when a project link is reached with the keyboard", () => {
     it("has a visible focus style", () => {
       render(<ProjectList title="Projects" projects={PROJECTS} />);
 
       expect(
         screen.getByRole("link", { name: "blog-api on GitHub" }),
-      ).toHaveClass("focus-visible:ring-[3px]");
+      ).toHaveClass("focus-visible:outline-2");
     });
   });
 });
